@@ -1,0 +1,97 @@
+using System;
+
+namespace BatalhaNaval
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            jogar();
+            Console.ReadKey();
+        }
+
+        static void jogar()
+        {
+            string[,] mapa = new string[10, 10];
+            setValorDefault(mapa);
+
+            string[,] mapaSecreto = new string[10, 10];
+            mapaSecreto[3, 3] = "N";
+            mapaSecreto[4, 4] = "N";
+            mapaSecreto[5, 5] = "A";
+            mapaSecreto[7, 7] = "A";
+            mapaSecreto[6, 6] = "O";
+            mapaSecreto[8, 8] = "O";
+            listarMapa(mapa);
+
+            int acertos = 0;
+            while (acertos < 3)
+            {
+                Console.WriteLine("Digite a linha da coordenada que deseja atingir");
+                int linha = int.Parse(Console.ReadLine());
+
+                Console.WriteLine("Digite a coluna da coordenada que deseja atingir");
+                int coluna = int.Parse(Console.ReadLine());
+                Console.WriteLine(" ");
+
+                if (mapaSecreto[linha, coluna] == "N")
+                {
+                    mapa[linha, coluna] = " N ";
+                    Console.WriteLine("Você acertou um navio!");
+                    listarMapa(mapa);
+                    acertos++;
+                }
+                if (mapaSecreto[linha, coluna] == "A")
+                {
+                    mapa[linha, coluna] = " A ";
+                    Console.WriteLine("Você acertou um avião!");
+                    listarMapa(mapa);
+                    acertos++;
+                }
+
+                if (mapaSecreto[linha, coluna] == "O")
+                {
+                    mapa[linha, coluna] = " O ";
+                    Console.WriteLine("ÁGUA!");
+                    listarMapa(mapa);
+                    acertos++;
+                }
+                Console.WriteLine(" ");
+
+            }
+            Console.WriteLine("Fim de jogo!");
+
+        }
+
+        static void setValorDefault(string[,] grade)
+        {
+            for (int linha = 0; linha < grade.GetLength(0); linha++)
+            {
+                for (int coluna = 0; coluna < grade.GetLength(1); coluna++)
+                {
+                    grade[linha, coluna] = " - ";
+                }
+            }
+        }
+
+        static void listarMapa(string[,] grade)
+        {
+            for (int linha = 0; linha < grade.GetLength(0); linha++)
+            {
+                for (int coluna = 0; coluna < grade.GetLength(1); coluna++)
+                {
+                 
+
+                    Console.ForegroundColor =
+                        (grade[linha, coluna] == " N " || grade[linha, coluna] == " A " )
+                        ? ConsoleColor.Red : ConsoleColor.White;
+
+                    Console.Write(grade[linha, coluna]);
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}
+
+
